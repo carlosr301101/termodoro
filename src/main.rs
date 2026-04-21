@@ -1,14 +1,10 @@
-mod config;
-mod domain;
-mod engine;
-mod persistence;
-
 use clap::{Parser, Subcommand};
 
-use crate::config::{AppConfig, ConfigOverrides};
-use crate::engine::{compute_remaining_secs, format_remaining, run_pomodoro};
-use crate::persistence::{
+use termodoro::config::{AppConfig, ConfigOverrides};
+use termodoro::engine::{compute_remaining_secs, format_remaining, run_pomodoro};
+use termodoro::persistence::{
     AppResult, clear_state, load_config, load_state, process_exists, save_config, send_interrupt,
+    now_epoch_secs,
 };
 
 #[derive(Parser, Debug)]
@@ -107,7 +103,7 @@ fn print_status() -> AppResult<()> {
         return Ok(());
     }
 
-    let now = persistence::now_epoch_secs()?;
+    let now = now_epoch_secs()?;
     let remaining = compute_remaining_secs(
         state.phase_duration_secs,
         state.phase_started_epoch_secs,

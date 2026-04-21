@@ -77,6 +77,7 @@ impl PhaseTimer {
     }
 }
 
+/// Computes remaining seconds in a phase, accounting for all paused intervals.
 pub fn compute_remaining_secs(
     duration_secs: u64,
     phase_started_epoch_secs: u64,
@@ -150,6 +151,12 @@ fn append_phase_history(timer: &PhaseTimer, interrupted: bool) -> AppResult<()> 
     })
 }
 
+/// Runs the interactive Pomodoro loop.
+///
+/// The loop persists runtime state, listens to keyboard controls (`p`, `r`, `q`)
+/// and `Ctrl+C`, and appends phase history as phases complete or are interrupted.
+///
+/// When `cycles` is `Some(n)`, execution stops after `n` completed work sessions.
 pub fn run_pomodoro(config: AppConfig, cycles: Option<u32>) -> AppResult<()> {
     let _raw_mode = RawModeGuard::new()?;
     let stop_requested = Arc::new(AtomicBool::new(false));
@@ -248,6 +255,7 @@ pub fn run_pomodoro(config: AppConfig, cycles: Option<u32>) -> AppResult<()> {
     }
 }
 
+/// Formats a remaining duration in `MM:SS`.
 pub fn format_remaining(remaining_secs: u64) -> String {
     let mins = remaining_secs / 60;
     let secs = remaining_secs % 60;

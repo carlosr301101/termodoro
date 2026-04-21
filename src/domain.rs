@@ -2,14 +2,19 @@ use serde::{Deserialize, Serialize};
 
 use crate::config::AppConfig;
 
+/// A logical phase of the Pomodoro cycle.
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq)]
 pub enum Phase {
+    /// Focused work period.
     Work,
+    /// Short resting period between most work sessions.
     ShortBreak,
+    /// Longer resting period inserted every few work sessions.
     LongBreak,
 }
 
 impl Phase {
+    /// Returns a human-readable phase label suitable for terminal output.
     pub fn label(self) -> &'static str {
         match self {
             Phase::Work => "Work",
@@ -18,6 +23,7 @@ impl Phase {
         }
     }
 
+    /// Converts phase duration from configured minutes to seconds.
     pub fn duration_seconds(self, config: &AppConfig) -> u64 {
         match self {
             Phase::Work => config.work_minutes * 60,
@@ -27,6 +33,11 @@ impl Phase {
     }
 }
 
+/// Computes the next phase in the cycle.
+///
+/// After a `Work` phase, this returns `LongBreak` when
+/// `completed_work_sessions` is a multiple of `long_break_every` and
+/// `ShortBreak` otherwise. After any break, it returns `Work`.
 pub fn next_phase(current: Phase, completed_work_sessions: u32, long_break_every: u32) -> Phase {
     match current {
         Phase::Work => {
