@@ -3,8 +3,8 @@ use clap::{Parser, Subcommand};
 use termodoro::config::{AppConfig, ConfigOverrides};
 use termodoro::engine::{compute_remaining_secs, format_remaining, run_pomodoro};
 use termodoro::persistence::{
-    AppResult, clear_state, load_config, load_state, process_exists, save_config, send_interrupt,
-    now_epoch_secs,
+    AppResult, clear_state, load_config, load_state, now_epoch_secs, process_exists, save_config,
+    send_interrupt,
 };
 
 #[derive(Parser, Debug)]
