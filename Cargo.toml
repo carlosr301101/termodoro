@@ -7,8 +7,8 @@ description = "Terminal Pomodoro (termodoro) is an nice widget for terminals and
 license = "MIT" # O la licencia que prefieras
 repository = "https://github.com/carlosr301101/termodoro"
 readme = "README.md"
-homepage = "https://github.com/carlosr301101/int64grep"
-documentation = "https://docs.rs/int64grep"
+homepage = "https://github.com/carlosr301101/termodoro"
+documentation = "https://docs.rs/termodoro"
 keywords = ["cli", "terminal"]
 categories = ["command-line-utilities", "visualization"]
 
