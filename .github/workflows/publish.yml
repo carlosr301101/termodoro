@@ -38,4 +38,4 @@ jobs:
             exit 1
           fi
       - name: Publicar Crate
-        run: cargo publish
+        run: cargo publish --allow-dirty
