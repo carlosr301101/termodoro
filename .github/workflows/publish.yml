@@ -1,0 +1,41 @@
+name: Publicar en Crates.io
+
+on:
+  # El workflow se dispara al crear una nueva etiqueta (tag) que empiece con 'v'
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+*' # Ejemplo: v1.0.0, v1.0.1-beta, etc.
+
+env:
+  # Asegura que el crate.io token se use en los comandos de cargo
+  CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+
+jobs:
+  run-ci-tests:
+    name: Ejecutar CI (rust.yml)
+    # Llama al workflow de tests definido en rust.yml
+    uses: ./.github/workflows/rust.yml
+
+  publish-crate:
+    name: Publicar
+    runs-on: ubuntu-latest
+    
+    needs: run-ci-tests
+    
+    steps:
+      - name: Checkout del Código
+        uses: actions/checkout@v4
+
+      - name: Instalar Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Verificar versión del Crate
+        run: |
+          VERSION_TAG="${GITHUB_REF_NAME}"
+          CRATE_VERSION=$(grep '^version' Cargo.toml | cut -d '"' -f 2)
+          if [ "v$CRATE_VERSION" != "$VERSION_TAG" ]; then
+            echo "Error: La versión ($CRATE_VERSION) no coincide con el tag ($VERSION_TAG)."
+            exit 1
+          fi
+      - name: Publicar Crate
+        run: cargo publish
