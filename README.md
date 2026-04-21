@@ -2,6 +2,12 @@
 
 Terminal Pomodoro app built in Rust.
 
+## Installation
+
+```bash
+cargo install termodoro 
+```
+
 ## Commands
 
 ```bash
