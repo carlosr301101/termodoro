@@ -1,6 +1,6 @@
 [package]
 name = "termodoro" # Debe ser único en crates.io
-version = "0.1.1"
+version = "0.1.2"
 authors = ["int_64 <carlosr301101@gmail.com>"]
 edition = "2024"
 description = "Terminal Pomodoro (termodoro) is an nice widget for terminals and help to improve your concentration and focus on activities."
