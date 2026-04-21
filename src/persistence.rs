@@ -140,7 +140,10 @@ pub fn process_exists(pid: u32) -> AppResult<bool> {
 }
 
 pub fn send_interrupt(pid: u32) -> AppResult<()> {
-    kill(Pid::from_raw(pid as i32), Some(nix::sys::signal::Signal::SIGINT))?;
+    kill(
+        Pid::from_raw(pid as i32),
+        Some(nix::sys::signal::Signal::SIGINT),
+    )?;
     Ok(())
 }
 

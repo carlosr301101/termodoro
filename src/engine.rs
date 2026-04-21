@@ -180,22 +180,22 @@ pub fn run_pomodoro(config: AppConfig, cycles: Option<u32>) -> AppResult<()> {
         loop {
             let now = now_epoch_secs()?;
 
-            if event::poll(Duration::from_millis(200))? {
-                if let Event::Key(key_event) = event::read()? {
-                    match key_event.code {
-                        KeyCode::Char('q') | KeyCode::Char('Q') => {
-                            stop_requested.store(true, Ordering::SeqCst);
-                        }
-                        KeyCode::Char('p') | KeyCode::Char('P') if !timer.is_paused() => {
-                            timer.pause(now);
-                            save_state(&build_runtime_state(&timer, completed_work_sessions)?)?;
-                        }
-                        KeyCode::Char('r') | KeyCode::Char('R') if timer.is_paused() => {
-                            timer.resume(now);
-                            save_state(&build_runtime_state(&timer, completed_work_sessions)?)?;
-                        }
-                        _ => {}
+            if event::poll(Duration::from_millis(200))?
+                && let Event::Key(key_event) = event::read()?
+            {
+                match key_event.code {
+                    KeyCode::Char('q') | KeyCode::Char('Q') => {
+                        stop_requested.store(true, Ordering::SeqCst);
                     }
+                    KeyCode::Char('p') | KeyCode::Char('P') if !timer.is_paused() => {
+                        timer.pause(now);
+                        save_state(&build_runtime_state(&timer, completed_work_sessions)?)?;
+                    }
+                    KeyCode::Char('r') | KeyCode::Char('R') if timer.is_paused() => {
+                        timer.resume(now);
+                        save_state(&build_runtime_state(&timer, completed_work_sessions)?)?;
+                    }
+                    _ => {}
                 }
             }
 

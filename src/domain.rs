@@ -30,7 +30,9 @@ impl Phase {
 pub fn next_phase(current: Phase, completed_work_sessions: u32, long_break_every: u32) -> Phase {
     match current {
         Phase::Work => {
-            if completed_work_sessions > 0 && completed_work_sessions % long_break_every == 0 {
+            if completed_work_sessions > 0
+                && completed_work_sessions.is_multiple_of(long_break_every)
+            {
                 Phase::LongBreak
             } else {
                 Phase::ShortBreak

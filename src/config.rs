@@ -31,8 +31,12 @@ impl AppConfig {
     pub fn apply_overrides(&self, overrides: &ConfigOverrides) -> Self {
         Self {
             work_minutes: overrides.work_minutes.unwrap_or(self.work_minutes),
-            short_break_minutes: overrides.short_break_minutes.unwrap_or(self.short_break_minutes),
-            long_break_minutes: overrides.long_break_minutes.unwrap_or(self.long_break_minutes),
+            short_break_minutes: overrides
+                .short_break_minutes
+                .unwrap_or(self.short_break_minutes),
+            long_break_minutes: overrides
+                .long_break_minutes
+                .unwrap_or(self.long_break_minutes),
             long_break_every: overrides.long_break_every.unwrap_or(self.long_break_every),
         }
     }
